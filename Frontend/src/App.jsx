@@ -1,31 +1,38 @@
-import React from 'react'
-import {Route, Routes, } from "react-router-dom"
-import Login from './pages/Login'
-import Feed from './pages/Feed'
-import Messages from './pages/Messages'
-import ChatBox from './pages/ChatBox'
-import Connection from './pages/Connection'
-import Discover from './pages/Discover'
-import Profile from './pages/Profile'
-import CreatePost from './pages/CreatePost'
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import Login from "./pages/Login";
+import Feed from "./pages/Feed";
+import Messages from "./pages/Messages";
+import ChatBox from "./pages/ChatBox";
+import Connection from "./pages/Connection";
+import Discover from "./pages/Discover";
+import Profile from "./pages/Profile";
+import CreatePost from "./pages/CreatePost";
+import { useUser } from "@clerk/react";
+import Layout from "./pages/Layout";
 
 const App = () => {
-  return (
-    <div className=' '>
-      <Routes>
-        <Route path='/' element={<Login/>}></Route>
-        <Route index element={<Feed/>}></Route>
-        <Route path='messages' element={<Messages/>}></Route>
-        <Route path='/messages/:userId' element={<ChatBox/>}></Route>
-        <Route path='/connections' element={<Connection/>}></Route>
-        <Route path='/discover' element={<Discover/>}></Route>
-        <Route path='/profile' element={<Profile/>}></Route>
-        <Route path='/profile/:profileId' element={<Profile/>}></Route>
-        <Route path='creatpost' element={<CreatePost/>}></Route>
-        
-      </Routes>
-    </div>
-  )
-}
+  const { user } = useUser();
 
-export default App
+  return (
+    <Routes>
+      {/* Public route */}
+      <Route path="/login" element={<Login />} />
+
+      {/* Protected Layout */}
+      {/* <Route path="/" element={user ? <Layout /> : <Login />}> */}
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Feed />} />
+        <Route path="messages" element={<Messages />} />
+        <Route path="messages/:userId" element={<ChatBox />} />
+        <Route path="connections" element={<Connection />} />
+        <Route path="discover" element={<Discover />} />
+        <Route path="profile" element={<Profile />} />
+        <Route path="profile/:profileId" element={<Profile />} />
+        <Route path="createpost" element={<CreatePost />} />
+      </Route>
+    </Routes>
+  );
+};
+
+export default App;
