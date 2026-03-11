@@ -63,7 +63,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
           </div>
           <LogOut
             className="w-4.5 text-gray-400 hover:text-gray-700 transition cursor-pointer"
-            onClick={{ signOut }}
+            onClick={() => {
+              signOut();
+              navigate("/login");
+            }}
           />
         </div>
       </div>
